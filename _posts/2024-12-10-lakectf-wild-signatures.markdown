@@ -1,5 +1,5 @@
 ---
-title: LakeCTF 2024 - Cert
+title: LakeCTF 2024 - Wild Signatures
 date: 2024-12-10 12:00:00 +0530
 categories: [cryptography, ctf]
 tags: [cryptography, ctf, lakectf]
