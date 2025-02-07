@@ -14,9 +14,9 @@ nc chall.polygl0ts.ch 9001
 
 ## Source files
 
-[server.py](./server.py) \
-[Dockerfile](./Dockerfile) \
-[compose.yaml](./compose.yaml)
+[server.py](https://github.com/Aer0Sol/CTF-Writeups/blob/main/2024/LakeCTF/wild-signatures/server.py) \
+[Dockerfile](https://github.com/Aer0Sol/CTF-Writeups/blob/main/2024/LakeCTF/wild-signatures/Dockerfile) \
+[compose.yaml](https://github.com/Aer0Sol/CTF-Writeups/blob/main/2024/LakeCTF/wild-signatures/compose.yaml)
 
 
 ## Source Analysis

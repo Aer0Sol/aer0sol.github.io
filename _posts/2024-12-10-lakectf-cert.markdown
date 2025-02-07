@@ -24,8 +24,8 @@ nc chall.polygl0ts.ch 9024
 
 ## Source files
 
-[cert.py](./cert.py) \
-[precomputed.py](./precomputed.py) 
+[cert.py](https://github.com/Aer0Sol/CTF-Writeups/blob/main/2024/LakeCTF/cert/cert.py) \
+[precomputed.py](https://github.com/Aer0Sol/CTF-Writeups/blob/main/2024/LakeCTF/cert/precomputed.py) 
 
 
 ## Source Analysis
