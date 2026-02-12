@@ -48,7 +48,9 @@ $$\cos(a+b) = \cos(a)\cos(b) - \sin(a)\sin(b)$$
 So now can we just map $(x,y)  \to (\sin(\theta), \cos(\theta))$ and we can see how the `clockadd()` func came to be.
 
 We still lack `p` the modulus used for the FF operations, how can we retrieve it? 
-Quite simple actually, we are given three elements from this curve and the corresponding equation each one of them satisfy is $$x^2 + y^2 \equiv \bmod \ p$$ We can simply rearrange this for getting $x^2 -y^2 - 1 = k\cdot p$ 
+Quite simple actually, we are given three elements from this curve and the corresponding equation each one of them satisfy is 
+$$x^2 + y^2 \equiv \bmod \ p$$
+We can simply rearrange this for getting $x^2 -y^2 - 1 = k\cdot p$ 
 Perform this for each element given (Alice, Bob and Base Point) and take the gcd, that will be the `p` with high chance
 ```python
 p = gcd([Ax^2 + Ay^2 - 1, Bx^2 + By^2 - 1, Gx^2 + Gy^2 - 1])
@@ -61,7 +63,7 @@ We can try using the unit circle over complex plane but we have to first include
 
 We can notice how there exists no solution to the equation $x^2 \equiv -1 \bmod p$ so let's perform a field extension.
 We can now build:  
-$$\mathbb{F}\_{p^2} \cong \mathbb{F}\_{p}[x]/⟨x^2+1⟩$$
+$$\mathbb{F}_{p^2} \cong \mathbb{F}_{p}[x]/⟨x^2+1⟩$$
 which in sage is: 
 ```python
 F = GF(p^2, 'i', modulus=[1,0,1])
