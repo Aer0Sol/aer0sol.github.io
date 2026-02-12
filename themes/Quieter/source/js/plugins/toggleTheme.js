@@ -56,4 +56,5 @@ function setToggleThemeButtonListener() {
         localStorage.setItem('theme', getTheme() === 'light' ? 'dark' : 'light');
         setTheme();
     }
+    setTheme();
 }
