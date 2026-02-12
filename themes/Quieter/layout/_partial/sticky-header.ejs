@@ -55,7 +55,11 @@
 			element.classList.add('custom-style');
 			var links = null;
 			if (name === 'home' && "<%- theme.home_top_img %>") {
-				links = ["<%- theme.home_top_img %>"];
+				if (typeof getTheme === 'function' && getTheme() === 'light') {
+					links = ["/images/covers/cathedral.jpg"];
+				} else {
+					links = ["<%- theme.home_top_img %>"];
+				}
 			} else if("<%- page.top_img %>")
 			{
 				links = "<%- page.top_img %>".split(',');

@@ -17,6 +17,23 @@ function getTheme(){
 function setTheme() {
     document.documentElement.setAttribute('data-theme', getTheme());
 
+    // Update Toggle Theme Button Icon
+    const toggleThemeImg = document.querySelector('#js-toggle_theme img');
+    if (toggleThemeImg) {
+        const iconName = getTheme() === 'light' ? 'deck_back2.png' : 'deck_back1.png';
+        toggleThemeImg.src = `/images/icon/${iconName}`;
+    }
+
+    // Update Home Cover Image
+    const headerBg = document.querySelector('.header-background');
+    const isHome = document.querySelector('main.home');
+    if (headerBg && isHome) {
+        const theme = getTheme();
+        const lightImg = '/images/covers/cathedral.jpg';
+        const darkImg = '/images/covers/homepage.png';
+        headerBg.style.backgroundImage = `url('${theme === 'light' ? lightImg : darkImg}')`;
+    }
+
     // giscus https://blog.jvav.me/posts/change-giscus-theme-at-runtime
     document.querySelectorAll("iframe.giscus-frame")?.forEach(frame => {
         frame.contentWindow.postMessage(

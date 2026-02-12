@@ -24,6 +24,28 @@
             display: none;
         }
 
+        &#js-toggle_theme > span {
+            width: 32px;
+            height: 43.5px;
+            background: transparent;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            border-radius: 0;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                border: none;
+                transform: scale(1.1);
+                filter: brightness(1.2);
+            }
+
+            .rightside-button-icon {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
         &>span {
             display: flex;
             align-items: center;
