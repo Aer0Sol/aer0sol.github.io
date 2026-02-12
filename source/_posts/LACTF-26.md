@@ -42,7 +42,8 @@ Don't run out of time
 
 ### The maths
 
-The entire `clockadd()` is just addition of angles over a circle, so we can see how: $$\sin(a+b) = \sin(a)\cos(b) + \cos(a)\sin(b)$$
+The entire `clockadd()` is just addition of angles over a circle, so we can see how: 
+$$\sin(a+b) = \sin(a)\cos(b) + \cos(a)\sin(b)$$
 $$\cos(a+b) = \cos(a)\cos(b) - \sin(a)\sin(b)$$
 So now can we just map $(x,y)  \to (\sin(\theta), \cos(\theta))$ and we can see how the `clockadd()` func came to be.
 
@@ -55,7 +56,7 @@ assert is_prime(p)
 ```
 
 Now we can check if `p-1` is smooth which turns out to be a no, we can also see $p \equiv 3  \bmod 4$
-Since we are dealing with a circle rather than a traditional elliptic curve, let's look for an isomorphism to ease out the difficulty of our problem.
+Since we are dealing with a circle rather than a traditional elliptic curve, let's look for an `isomorphism` to ease out the difficulty of our problem.
 We can try using the unit circle over complex plane but we have to first include $i$ somehow.
 
 We can notice how there exists no solution to the equation $x^2 \equiv -1 \bmod p$ so let's perform a field extension.
@@ -156,7 +157,7 @@ We can first construct $Q(x) = P(x) - y$  where is $P(x)$ is the polynomial invo
 Now we end up in an amazing position, we can't possibly compute `.roots()` of such an enormous polynomial (atleast I ended up failing -- idk why I tried honestly) so let's think of other ways. 
 
 Fortunately, 
-we can try something with binary exponentiation. We can do $R(x) \equiv x^p \bmod Q(x)$  and then compute $gcd(R(x)-x, Q(x))$ and this resulting polynomial contains all the roots of $Q(x)$ that is under $\mathbb{F}\_{p}[x]$  
+we can try something with binary exponentiation. We can do $R(x) \equiv x^p \bmod Q(x)$ and then compute $gcd(R(x)-x, Q(x))$ and this resulting polynomial contains all the roots of $Q(x)$ that is under $\mathbb{F}\_{p}[x]$  
 Why?
 $x^p - x$ has a nice property where it is the product of each and every number in $\mathbb{F}\_{p}$ i.e 
 $$x^p - x = \prod_{i \in \mathbb{F\_{p}}}(x-i)$$

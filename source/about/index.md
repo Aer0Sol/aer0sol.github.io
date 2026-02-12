@@ -11,5 +11,9 @@ I am a Cryptographer/Cryptanalyst from [teambi0s](https://bi0s.in/), has a healt
 
 
 
-I also play quite some Indie games and waste my time on Clash Royale (yes had to say that)
+I also play quite some Indie games (I believe that is evident) and waste my time on Clash Royale.
+Hmu on any of the socials listed in this page :)
 
+Discord : aerosol.
+X : @AeroSol_cann
+![coinflip](/about/coinflip.gif)

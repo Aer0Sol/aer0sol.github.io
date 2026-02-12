@@ -154,9 +154,8 @@ while True:
 
 io.interactive()
 
-# EPFL{wH4T_d0_yOu_m34n_4_W1LdC4Rd}
 ```
-
+**Flag** : `EPFL{wH4T_d0_yOu_m34n_4_W1LdC4Rd}`
 
 
 

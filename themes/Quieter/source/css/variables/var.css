@@ -1,8 +1,8 @@
 [data-theme='light'] {
-    --global-bg: #f1f5fb;
+    --global-bg: #F9F9F4;
     --text-primary: #222;
     --text-secondary: #707070;
-    --text-link: #3c79b6;
+    --text-link: #089DF9;
     --background-primary: #fff;
     --background-secondary: rgba(255, 255, 255, 0.9);
     --background-tertiary: #eff2f6;
@@ -20,7 +20,7 @@
     --global-bg: #0d0d0d;
     --text-primary: #ddd;
     --text-secondary: #aaa;
-    --text-link: #d86666;
+    --text-link: #F85A4E;
     --background-primary: #1a1a1a;
     --background-secondary: rgba(0, 0, 0, 0.9);
     --background-tertiary: rgba(0, 0, 0, 0.95);

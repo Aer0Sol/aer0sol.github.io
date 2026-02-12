@@ -7,6 +7,7 @@ cover: /images/covers/blueprint_top.jpg
 tags: 
 - Brute
 - PRNG
+- Branch and Prune
 categories: Writeup
 ---
 
