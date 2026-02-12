@@ -60,7 +60,7 @@ Since we are dealing with a circle rather than a traditional elliptic curve, let
 We can try using the unit circle over complex plane but we have to first include $i$ somehow.
 
 We can notice how there exists no solution to the equation $x^2 \equiv -1 \bmod p$ so let's perform a field extension.
-We can now build:  $$\mathbb{F}_{p^2} \cong \mathbb{F}_{p}[x]/⟨x^2+1⟩$$
+We can now build:  $$\mathbb{F}\_{p^2} \cong \mathbb{F}_{p}[x]/⟨x^2+1⟩$$
 which in sage is: 
 ```python
 F = GF(p^2, 'i', modulus=[1,0,1])
