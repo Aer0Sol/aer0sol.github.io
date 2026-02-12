@@ -58,3 +58,11 @@ function setToggleThemeButtonListener() {
     }
     setTheme();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTheme();
+});
+
+window.addEventListener('pageshow', () => {
+    setTheme();
+});
