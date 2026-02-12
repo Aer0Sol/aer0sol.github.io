@@ -15,7 +15,7 @@ categories: Writeup
 
 
 Here are some of the challenges I solved during LACTF 2026, overall pretty fun CTF.
-Challenge files can be found at this archive : [--> Sajjadium](https://github.com/sajjadium/ctf-archives/tree/main/ctfs/LA/2026/crypto/the_clock))
+Challenge files can be found at this archive : [--> Sajjadium](https://github.com/sajjadium/ctf-archives/tree/main/ctfs/LA/2026/crypto/the_clock)
 
 ## The Clock
 
@@ -46,8 +46,8 @@ The entire `clockadd()` is just addition of angles over a circle, so we can see 
 $$\cos(a+b) = \cos(a)\cos(b) - \sin(a)\sin(b)$$
 So now can we just map $(x,y)  \to (\sin(\theta), \cos(\theta))$ and we can see how the `clockadd()` func came to be.
 
-We still lack `p` the modulus used for the FF operations, how can we retrieve it? \
-Quite simple actually, we are given three elements from this curve and the corresponding equation each one of them satisfy is $$x^2 + y^2 \equiv \bmod \ p$$ We can simply rearrange this for getting $x^2 -y^2 - 1 = k\cdot p$ \
+We still lack `p` the modulus used for the FF operations, how can we retrieve it? 
+Quite simple actually, we are given three elements from this curve and the corresponding equation each one of them satisfy is $$x^2 + y^2 \equiv \bmod \ p$$ We can simply rearrange this for getting $x^2 -y^2 - 1 = k\cdot p$ 
 Perform this for each element given (Alice, Bob and Base Point) and take the gcd, that will be the `p` with high chance
 ```python
 p = gcd([Ax^2 + Ay^2 - 1, Bx^2 + By^2 - 1, Gx^2 + Gy^2 - 1])
@@ -145,18 +145,21 @@ I heard you like sharing secrets, so I shared my secret with the polynomial that
 - This obviously means if we are going to represent this as a polynomial, the degree is gonna increase for each `RNG.next()` call.
 - The total number of shares is 15 and we need only 10 to interpolate the polynomial.
 - A single share $(x=1,y)$ is provided along with the modulus. 
-- Since it is the very first share, $y = \sum^{9}_{i=0} c_{i} \bmod p$
-- As I had mentioned before, if we are to represent the seed, i.e $P(c_{0})$, the polynomial degree would be $3^9 = 19683$ (waw)
+- Since it is the very first share,
+$$y = \sum^{9}_{i=0} c_{i} \bmod p$$
+- As I had mentioned before, if we are to represent the seed, i.e $P(c\_{0})$,
+the polynomial degree would be $3^9 = 19683$ (waw)
 
 ### The math
 
 We can first construct $Q(x) = P(x) - y$  where is $P(x)$ is the polynomial involved in the SSSS under $\mathbb{F}_{p}[x]$. The roots of this polynomial would be the **seed**.
 Now we end up in an amazing position, we can't possibly compute `.roots()` of such an enormous polynomial (atleast I ended up failing -- idk why I tried honestly) so let's think of other ways. 
 
-Fortunately, \
-we can try something with binary exponentiation. We can do $R(x) \equiv x^p \bmod Q(x)$  and then compute $gcd(R(x)-x, Q(x))$ and this resulting polynomial contains all the roots of $Q(x)$ that is under $\mathbb{F}_{p}[x]$ \
+Fortunately, 
+we can try something with binary exponentiation. We can do $R(x) \equiv x^p \bmod Q(x)$  and then compute $gcd(R(x)-x, Q(x))$ and this resulting polynomial contains all the roots of $Q(x)$ that is under $\mathbb{F}\_{p}[x]$  
 Why?
-$x^p - x$ has a nice property where it is the product of each and every number in $\mathbb{F}_{p}$ i.e $$x^p - x = \prod_{i \in \mathbb{F_{p}}}(x-i)$$
+$x^p - x$ has a nice property where it is the product of each and every number in $\mathbb{F}\_{p}$ i.e 
+$$x^p - x = \prod_{i \in \mathbb{F\_{p}}}(x-i)$$
 so we can just use `gcd()` as a nice filter.
 
 Let's name this new polynomial as $S(x)$ and thankfully the degree of $S(x)$ is just 2 so we can compute the roots and try each until we can decode it into the flag.
