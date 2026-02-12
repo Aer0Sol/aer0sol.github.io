@@ -50,7 +50,7 @@ So now can we just map $(x,y)  \to (\sin(\theta), \cos(\theta))$ and we can see 
 We still lack `p` the modulus used for the FF operations, how can we retrieve it? 
 Quite simple actually, we are given three elements from this curve and the corresponding equation each one of them satisfy is 
 $$x^2 + y^2 \equiv \bmod \ p$$
-We can simply rearrange this for getting $x^2 -y^2 - 1 = k\cdot p$ 
+We can simply rearrange this for getting $x^2 + y^2 - 1 = k\cdot p$ 
 Perform this for each element given (Alice, Bob and Base Point) and take the gcd, that will be the `p` with high chance
 ```python
 p = gcd([Ax^2 + Ay^2 - 1, Bx^2 + By^2 - 1, Gx^2 + Gy^2 - 1])
@@ -164,6 +164,8 @@ we can try something with binary exponentiation. We can do $R(x) \equiv x^p \bmo
 Why?
 $x^p - x$ has a nice property where it is the product of each and every number in $\mathbb{F}\_{p}$ i.e 
 $$x^p - x = \prod_{i \in \mathbb{F\_{p}}}(x-i)$$
+
+$Q(x)$ obviously has multiple factors but it would also contain factors that are irreducible and greater than degree 1, which are garbage factors and we need not worry about those anyway.
 so we can just use `gcd()` as a nice filter.
 
 Let's name this new polynomial as $S(x)$ and thankfully the degree of $S(x)$ is just 2 so we can compute the roots and try each until we can decode it into the flag.
