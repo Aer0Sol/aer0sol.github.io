@@ -7,8 +7,8 @@ math: true
 cover: /images/covers/LACTF_top.jpg
 tags: 
 - Isomorphism
-- Hash length extension
 - Polynomial
+- Hash length extension
 categories: Writeup
 ---
 
@@ -165,6 +165,8 @@ Why?
 $x^p - x$ has a nice property where it is the product of each and every number in $\mathbb{F}\_{p}$ i.e 
 $$x^p - x = \prod_{i \in \mathbb{F\_{p}}}(x-i)$$
 
+_hint: Fermat's little theorem :)_
+
 $Q(x)$ obviously has multiple factors but it would also contain factors that are irreducible and greater than degree 1, which are garbage factors and we need not worry about those anyway.
 so we can just use `gcd()` as a nice filter.
 
@@ -212,6 +214,186 @@ for r, _ in g.roots():
         continue
 ```
 
-Flag : `lactf{d0nt_d3r1v3_th3_wh0l3_p0lyn0m14l_fr0m_th3_s3cr3t_t00!!!}`
+**Flag** : `lactf{d0nt_d3r1v3_th3_wh0l3_p0lyn0m14l_fr0m_th3_s3cr3t_t00!!!}`
 
 
+
+
+
+
+Now let's get to the most enjoyable solve of the CTF for me, that involved *some* tetris
+
+
+
+
+## Ttyspin
+
+### Challenge Description
+```
+Ready for a classic, yet modern gaming experience?
+```
+
+### Source Code Analysis
+
+- We are given two files, [game.py](https://github.com/sajjadium/ctf-archives/blob/main/ctfs/LA/2026/crypto/ttyspin/game.py) and [board.py](https://github.com/sajjadium/ctf-archives/blob/main/ctfs/LA/2026/crypto/ttyspin/board.py) so let's analyse each one of them separately.
+
+#### game.py
+- If we look at `game.py` there are couple of interesting stuff, we have a `winning_board` var which is a matrix comprising mostly of 0s but some digits in a zigzag manner.
+- there is a `make_checksum()` func which takes in a username and save_code, has an assertion where `assert len(SECRET) == 40` happens and returns: `Hash((SECRET + username + save_code).strip())` definitely very interesting as you will see soon.
+- Some standard funcs that you would associate with how the game renders elements and such, not very useful and interesting..
+- Under main, we have give username as an input which should not exceed 32 length and a load from save functionality where it prompts for checksum val in hex and checks it against `make_checksum(username, base64.b64decode(save)).encode()` if it the checksum matches, the game loads from the given save, again interesting mechanism.
+- Couple of keybinds and set actions for them in the rest of the code and there is a check which **fetches our board and compares it against the winning board** if they match, we get the flag.
+
+#### board.py
+- We see a bunch of block_shapes, kicks and a dict with piece_to_type
+- We have two classes, one is `Board` and the other is `Block` seems to contain everything you would normally expect from a tetris game, nothing really special here (I manually did go through the functions line by line to deduce nothing really special there 💀)
+- Except of-course for the save functionality, which describes how to load a save when provided one.
+
+Overall, we are looking at quite some interesting mechanism associated with save functionality and the checksum derivation from the username and save_code.
+
+### How does the game work?
+
+- So we know this works like usual tetris from reading the code and most importantly _playing_ it, we have all the usual blocks which are T, J, L, S, Z, O and finally the I block.
+- We can **hold** a block, i.e, we can mark a block as held and the block will now disappear and the next block in the queue will appear on the screen. If this was done when there is already a block held, the current block will swap out with the current block **but this action cannot be done again until unless this block is placed.**
+![Local_example](local_example.png)
+
+We can load a game from a save, we can also export our current game in the checksum format.
+
+![Local_save](local_save.png)
+
+- Let's see how the save_code is represented:
+`current, hold, nexts, queue, board = save.decode().split("|")`
+from this we can deduce that our currently active block is stored first, then the held block, next array, queue array and finally the board of length `200`
+
+- Let's convert the above image's save_code and see:
+```
+'L|S|ZIZT|SOLJI|                                                                                                                                                                           OO  T    JOO  TT   JJJ  T    '
+```
+
+- `All the gaps that you can see is/are the air/places where there are no blocks placed.`
+
+Now, as we have an idea how the board is represented, we can move our focus to the `checksum` especially on how it is formed.
+
+Let's have a visualization:
+![Full hash](hash_full.png)
+
+- We have 40 byte `SECRET` value that is appended to our username and save_code which let's assume is randomly generated, this prevents us from outright forging a game state we want for an username.
+
+_BUT_
+
+**We are using a Merkle–Damgård hash function (SHA256 here) which is vulnerable to [Hash Length Extension Attack](https://en.wikipedia.org/wiki/Length_extension_attack), can we do something possibly with it?**
+
+### Small Primer of Length Extension
+
+- All MD hash functions use a **compression function** internally to create the hash but it cannot take arbitrary length data, so a **MD-compliant padding function** is applied to create an input of size which is a multiple of 512 bits in the case of SHA256.
+- This result is then broken down as blocks of fixed size and they are processed one at a time with $f$ .
+
+![MD Construction](MD_cons.png)
+
+- Since they are processed one at a time, given `H(X)` for an unknown value `X`, we can easily find the value of `H(pad(X)|Y)` for a chosen value `Y`. This requires you to know the length of the unknown so you can perform the Hash's padding.
+
+### The Exploitation
+
+We know we have to perform Hash Length Extension of some kind BUT we have a problem,  we simply can't query `H(SECRET)`, we have to worry about the username and save_code, to circumvent, we can do the following
+- Use an empty string for an username so our hash now looks like: 
+![New hash](new_hash.png)
+
+So we have to worry only about the save_code state.
+But that is also a problem as:
+- save_code contains the **board state**, which is exactly what we are trying to forge
+Simple, can we not save at the start of the game so there is nothing in the screen placed?
+NO, because of this line in `game.py` under `draw_save_window()`:
+
+```python
+    if game_board.score == 0:
+        window.addstr(7, 2, "No point in exporting, place some pieces")
+```
+
+So the only option is to get a **Perfect Clear Opener** for which I referred this [blog](https://four.lol/perfect-clears/opener#vertical-i) (I was pretty much baffled when I saw the speed of the PCOs T-T)
+which means me and my teammate had to skill up in tetris...
+
+Basically..
+![PCO Block](PCO_block.png)
+
+if we can form these structures in the game in some orientation with the I block on hold, we have 86.64% of a PCO.
+
+so we tried and tried...
+local recreation of this masterpiece:
+![Local PCO 1](local_PCO1.png) ![Local PCO 2](local_PCO2.png)
+
+NOW, we can do Hash Length Extension because this is how our checksum construction would look like:
+![Local full hash](local_fhash.png)
+
+since there is a `.strip()` happening, all the "air" will be eliminated, so we save the state, get the save_code and checksum.
+
+We can perform the appropriate MD-compliant padding for round-info since that will now occupy the place of our username and we hash-extend.
+
+```python
+import hlextend
+
+H = hlextend.new('sha256')
+pay = 'Z|I|JSTI|SLZOJ|'
+add = 'Z|I|JSTI|SLZOJ|          I          S          O          L          Z          T          J          I          S          O        L        Z        T        J        I        S        O        L        Z'
+print(len(add))
+'''
+Z|I|JSTI|SLZOJ|          I          S          O          L          Z          T          J          I          S          O        L        Z        T        J        I        S        O        L        Z
+'''
+print(H.extend(add.encode(), pay.encode(), 40, '76127818b168396db49461ea9a28255c701b6838cfbf24ce9f794640ef1b5854'))
+print(H.hexdigest())
+```
+
+We can send this now to the server:
+
+### Exploit Script
+
+```python
+import pexpect
+import time
+
+host = 'chall.lac.tf'
+port = 32123
+user = 'ttyspin'
+password = user.encode()
+
+checksum = b"b230b8bc375c6c45f315f3f09f14f2cc0fc700f88e16077e43ca9c0e03ebbeb5"
+username = b'Z|I|JSTI|SLZOJ|\x80\x00\x00\x00\x00\x00\x00\x01\xb8'
+b64_savestate = b'WnxJfEpTVEl8U0xaT0p8ICAgICAgICAgIEkgICAgICAgICAgUyAgICAgICAgICBPICAgICAgICAgIEwgICAgICAgICAgWiAgICAgICAgICBUICAgICAgICAgIEogICAgICAgICAgSSAgICAgICAgICBTICAgICAgICAgIE8gICAgICAgIEwgICAgICAgIFogICAgICAgIFQgICAgICAgIEogICAgICAgIEkgICAgICAgIFMgICAgICAgIE8gICAgICAgIEwgICAgICAgIFogICAgICAgICA='
+
+cmd = f'ssh -p {port} {user}@{host}'
+
+def solve():
+    print("Cooking...")
+    child = pexpect.spawn(cmd)
+
+    def ce(x): child.expect(x.encode())
+    def cs(x): child.sendline(x)
+    child.delaybeforesend = 0
+    
+    ce('password:')
+    cs(password)
+    
+    ce('username:')
+    cs(username)
+    
+    ce('save code')
+    cs(b64_savestate)
+    
+    ce('Checksum')
+    cs(checksum)
+    
+    try:
+        time.sleep(2)
+        res = child.read_nonblocking(size=10000, timeout=10)
+        out = res.decode(errors='replace')
+        print(out)
+        if "Congratulations" in out:
+            print("\n[+] Flag has been found!")
+    except Exception as e:
+        print(f"Error: {e}")
+    
+    child.close()
+
+solve()
+```
+
+**Flag** : `lactf{T3rM1n4L_g4mE5_R_a_Pa1N_2e075ab9ae6ae098}`
