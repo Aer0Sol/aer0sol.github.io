@@ -15,7 +15,7 @@ categories: Writeup
 
 
 Here are some of the challenges I solved during LACTF 2026, overall pretty fun CTF.
-Challenge files can be found at this archive : [--> Sajjadium](https://github.com/sajjadium/ctf-archives/tree/main/ctfs/LA/2026/crypto/the_clock)
+Challenge files can be found at this archive : [--> LACTF Official Repo](https://github.com/uclaacm/lactf-archive/tree/main/2026/crypto)
 
 ## The Clock
 
@@ -235,7 +235,7 @@ Ready for a classic, yet modern gaming experience?
 
 ### Source Code Analysis
 
-- We are given two files, [game.py](https://github.com/sajjadium/ctf-archives/blob/main/ctfs/LA/2026/crypto/ttyspin/game.py) and [board.py](https://github.com/sajjadium/ctf-archives/blob/main/ctfs/LA/2026/crypto/ttyspin/board.py) so let's analyse each one of them separately.
+- We are given two files, [game.py](https://github.com/uclaacm/lactf-archive/blob/main/2026/crypto/ttyspin/app/game.py) and [board.py](https://github.com/uclaacm/lactf-archive/blob/main/2026/crypto/ttyspin/app/board.py) so let's analyse each one of them separately.
 
 #### game.py
 - If we look at `game.py` there are couple of interesting stuff, we have a `winning_board` var which is a matrix comprising mostly of 0s but some digits in a zigzag manner.
