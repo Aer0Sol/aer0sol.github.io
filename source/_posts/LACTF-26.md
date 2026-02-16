@@ -277,7 +277,7 @@ Now, as we have an idea how the board is represented, we can move our focus to t
 Let's have a visualization:
 ![Full hash](hash_full.png)
 
-- We have 40 byte `SECRET` value that is appended to our username and save_code which let's assume is randomly generated, this prevents us from outright forging a game state we want for an username.
+- We have 40 byte `SECRET` value that is prepended to our username and save_code which let's assume is randomly generated, this prevents us from outright forging a game state we want for an username.
 
 _BUT_
 
