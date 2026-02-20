@@ -34,10 +34,11 @@
 				outline: 1px solid rgba(150, 150, 150, 0.05);
 				box-shadow: 4px 5px 2px 0 rgba(50, 50, 50, 0.05);
 				flex-direction: column;
-				transition: all 0.3s ease-out;
+				transition: all 0.3s cubic-bezier(0.2, 1.75, 0.3, 1);
 
 				&:hover {
 					transform: translateY(-15px);
+					box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 				}
 
 				&-item {
