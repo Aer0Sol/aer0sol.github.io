@@ -486,6 +486,7 @@ But there seems to be a catch
                 print(LEVEL.call_the_signer())
                 V1.update(V1.current_health-20)
 ```
+
 The HP will deteriorate by `-20` for every message we sign thus limiting us to two signatures before we can query for the encrypted flag.
 
 Now to approach the challenge, we need enough HP to sign at least 5 messages before we can find the private key using LLL.
