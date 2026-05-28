@@ -151,6 +151,14 @@ bottom_icon:
           # 跳转链接
           link: "https://github.com/Aer0Sol",
       }
+    - {
+          # 描述名称
+          name: "RSS",
+          # 图标
+          icon: "/images/bottom_icon/rss.png",
+          # 跳转链接
+          link: "/atom.xml",
+      }
 
 # 归档页是否开启侧边栏
 archive_aside: true
