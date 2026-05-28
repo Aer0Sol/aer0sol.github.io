@@ -157,7 +157,7 @@ bottom_icon:
           # 图标
           icon: "/images/bottom_icon/rss.png",
           # 跳转链接
-          link: "/atom.xml",
+          link: "/rss.xml",
       }
 
 # 归档页是否开启侧边栏

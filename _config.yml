@@ -115,15 +115,15 @@ search:
 
 # Feed
 feed:
-  type: atom
-  path: atom.xml
+  type: rss2
+  path: rss.xml
   limit: 20
   hub:
-  content: true
+  content: false
   content_limit:
   content_limit_delim: ' '
   order_by: -date
-  icon: /images/icon/ultrakillcoin.webp
+  icon: https://aer0sol.github.io/images/icon/ultrakillcoin.webp
   autodiscovery: true
   template:
 
