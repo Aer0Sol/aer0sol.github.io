@@ -91,7 +91,7 @@ article {
 		padding-bottom: 10px;
 		border-bottom: 2px solid var(--text-link);
 		line-height: 40px;
-		margin: 15px 0;
+		margin: 36px 0 18px;
 
 		a:hover {
 			border-bottom: 0;
@@ -103,22 +103,22 @@ article {
 		border-left: 3px solid var(--text-link);
 		padding-left: 10px;
 		line-height: 40px;
-		margin: 15px 0;
+		margin: 32px 0 22px;
 	}
 
 	h3 {
 		font-size: 22px;
-		margin: 15px 0;
+		margin: 28px 0 20px;
 	}
 
 	h4 {
 		font-size: 20px;
-		margin: 10px 0;
+		margin: 22px 0 16px;
 	}
 
 	h5 {
 		font-size: 19px;
-		margin: 5px 0;
+		margin: 18px 0 14px;
 	}
 
 	h6 {
@@ -150,6 +150,12 @@ article {
 	b,
 	mark {
 		font-family: var(--font-body);
+	}
+
+	p {
+		font-family: var(--font-body);
+		font-size: 16px;
+		line-height: 2.1;
 	}
 
 	p code {
@@ -212,24 +218,34 @@ article {
 	center,
 	p,
 	li {
-		margin: 5px 0;
+		margin: 12px 0;
 	}
 
 	ol {
+		margin: 16px 0;
 		li {
+			font-family: var(--font-body);
+			font-size: 16.5px;
 			color: var(--text-primary);
 			margin-left: 25px;
-			line-height: 30px;
+			line-height: 2.0;
+			margin-top: 8px;
+			margin-bottom: 8px;
 			transition: color 0.5s ease-in-out;
 		}
 	}
 
 	ul {
+		margin: 16px 0;
 		li {
+			font-family: var(--font-body);
+			font-size: 16.5px;
 			color: var(--text-primary);
 			list-style: none;
 			margin-left: 30px;
-			line-height: 30px;
+			line-height: 2.0;
+			margin-top: 8px;
+			margin-bottom: 8px;
 			transition: color 0.5s ease-in-out;
 
 			blockquote {
@@ -263,8 +279,8 @@ article {
 	blockquote {
 		background: var(--blockquote-bg);
 		border-left: 4px solid var(--border);
-		margin: 5px 0;
-		padding: 5px 1em 5px 1em;
+		margin: 20px 0;
+		padding: 10px 1em 10px 1em;
 		transition: all 0.3s ease-in-out;
 
 		p,
@@ -433,4 +449,49 @@ article {
 			}
 		}
 	}
+}
+
+[data-theme='light'] article figure.highlight table {
+	border-color: #968c7c;
+}
+
+[data-theme='dark'] article figure.highlight table {
+	border-color: #625c50;
+}
+
+[data-theme='light'] .katex,
+[data-theme='light'] .katex-display,
+[data-theme='light'] .math-display-block .katex {
+	color: #c8bc98;
+}
+
+[data-theme='dark'] .katex,
+[data-theme='dark'] .katex-display,
+[data-theme='dark'] .math-display-block .katex {
+	color: #e2d8b8;
+}
+
+[data-theme='light'] .math-display-block {
+	background: #f9f5d9;
+	border: 1.5px solid #968c7c;
+	border-radius: 6px;
+	padding: 1em 1.5em;
+	margin: 1.2em 0;
+	overflow-x: auto;
+	display: block;
+}
+
+[data-theme='dark'] .math-display-block {
+	background: #171717;
+	border: 1.5px solid #625c50;
+	border-radius: 6px;
+	padding: 1em 1.5em;
+	margin: 1.2em 0;
+	overflow-x: auto;
+	display: block;
+}
+
+/* suppress KaTeX's own .katex-display margin inside our wrapper */
+.math-display-block .katex-display {
+	margin: 0;
 }
